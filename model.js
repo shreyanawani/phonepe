@@ -27,6 +27,9 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  offers: {
+    type: Array,
+  },
 });
 // autoIncrement.initialize(mongoose.connection);
 // UserSchema.plugin(autoIncrement.plugin, "User");

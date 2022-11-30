@@ -50,7 +50,31 @@ app.post("/pitches/:id/makeOffer", function (req, res) {
       if (err || result.length == 0) {
         return res.status(404).send("Pitch Not Found");
       } else {
+        // let offer = {};
+        // offer.id = req.params.id;
+        // req.body.id = id;
         const offer = new offerModel(req.body);
+        offer.id = req.params.id;
+        console.log(offer);
+        console.log(typeof offer);
+        const update = {
+          $push: { offers: offer },
+        };
+        const options = { upsert: true };
+
+        userModel.findOneAndUpdate(
+          req.params.id,
+          update,
+          options,
+          function (err, data) {
+            if (err) {
+              return res.status(500).send(err);
+            }
+            if (!data) {
+              return res.status(404).send("Pitch Not Found");
+            }
+          }
+        );
         offer.save();
         return res.status(201).json({ id: req.params.id });
       }
@@ -93,6 +117,35 @@ app.post("/pitches", function (req, res) {
   } catch (e) {
     return res.status(400).send("Invalid Request Body");
   }
+});
+
+app.get("/pitches/:id", function (req, res) {
+  userModel.find(
+    { id: req.params.id },
+    { _id: 0, __v: 0, offers: { _id: 0 } },
+    function (err, docs) {
+      if (err || docs.length == 0) {
+        // console.log(err);
+        return res.status(404).send("Pitch Not Found");
+      } else {
+        return res.json(docs);
+      }
+    }
+  );
+});
+
+app.get("/pitches", function (req, res) {
+  userModel.find(
+    {},
+    { _id: 0, __v: 0, offers: { _id: 0 } },
+    function (err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        return res.json(result);
+      }
+    }
+  );
 });
 
 app.get("/", function (req, res) {
