@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form method="post" action="/pitches">
+      <input type="text" name="entrepreneur" required />
+      <input type="text" name="pitchTitle" required />
+      <input type="text" name="pitchIdea" required />
+      <input type="number" name="askAmount" required />
+      <input type="number" name="equity" required />
+      <input type="submit" value="Submit" required />
+    </form>
+
+    <form method="post" action="/offer">
+      <input type="string" name="id" required />
+      <input type="text" name="investor" required />
+      <input type="number" name="amount" required />
+      <input type="number" name="equity" required />
+      <input type="text" name="comment" required />
+      <input type="submit" value="Submit" required />
+    </form>
+  </body>
+</html>
